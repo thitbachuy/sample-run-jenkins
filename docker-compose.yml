@@ -4,9 +4,6 @@
 version: "3"
 services:
   testing:
-    depends_on:
-      - chrome
-      - selenium-hub
     build:
       context: .
       dockerfile: Dockerfile
