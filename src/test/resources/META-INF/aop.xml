@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+  <aspects>
+    <aspect name="utils.logging.LoggingAspect"/>
+  </aspects>
+
+  <!-- <weaver options="-verbose -debug -showWeaveInfo -Xset:weaveJavaxPackages=true"> -->
+  <weaver>
+    <!-- <include within="selenium.pageobject.*" /> <include within="selenium.pageobject.settings.*"
+      /> <include within="selenium.pageobject.settings.devices.*" /> <include within="selenium.pageobject.settings.orgProfilePage.*"
+      /> <include within="cucumber.steps.*.*" /> <include within="cucumber.steps.settings.*.*"
+      /> <include within="helper.*" /> -->
+  </weaver>
+
+</aspectj>

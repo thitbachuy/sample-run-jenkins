@@ -1,0 +1,57 @@
+*** Use this Pipeline to run and report Tests against a Server Based Jira XRay instance ***
+
+
+properties([parameters([string(defaultValue: '', description: 'please enter your JIRA Username', name: 'jiraUsername', trim: true), password(defaultValue: '', description: 'please enter your JIRA Password', name: 'jiraPassword'), choice(choices: ['E2E', 'INT', 'TEST'], description: 'select env', name: 'environment'), choice(choices: ['JJP-4', 'JJP-5'], description: '''JJP-4 = Reg
+JJP-5 = Smoke''', name: 'testset')]), [$class: 'JiraProjectProperty']])
+pipeline {
+
+    agent any
+
+    stages {
+        stage('Get TA from GitLab'){
+            checkout([$class                           : 'GitSCM',
+                      branches                         : [[name: '*/SinglePipeline']],
+                      doGenerateSubmoduleConfigurations: false,
+                      extensions                       : [[$class: 'CleanCheckout']],
+                      submoduleCfg                     : [],
+                      userRemoteConfigs                : [[credentialsId: '4',
+                      url                              : 'https://git.altemista.cloud/pascal.kallenborn/jirajenkinsimplementation']]
+            ])
+        }
+        stage('Get TestSet from JIRA') {
+            steps {
+                echo "Testset loaded from JIRA: ${testset}"
+                bat 'curl -D- -u %jiraUsername%:"%jiraPassword%" https://jira.ballpark.de.altemista.cloud/rest/raven/1.0/export/test?keys=%testset% -o src/test/java/Features/Feature.feature'
+            }
+        }
+        stage('Compile TA Code') {
+            steps {
+                withMaven(maven: 'maven_3_6_3') {
+                    bat 'mvn -f "C:/Program Files (x86)/Jenkins/workspace/Single Pipeline GIT JIRA Jenkins" clean compile'
+                }
+            }
+        }
+        stage('Execute Jira Tests') {
+            steps {
+                withMaven(maven: 'maven_3_6_3') {
+                    echo "Test running on ${environment}"
+                    bat 'mvn -f "C:/Program Files (x86)/Jenkins/workspace/Single Pipeline GIT JIRA Jenkins" verify -Denv=%environment%'
+                }
+            }
+        }
+
+        stage('create Cucumber Report') {
+            steps {
+                cucumber buildStatus: "UNSTABLE",
+                        fileIncludePattern: "**/cucumber.json",
+                        jsonReportDirectory: 'target/cucumber-report'
+            }
+        }
+        stage('Send Report to Jira') {
+            steps {
+                echo "Testset loaded to JIRA: ${testset}"
+                bat 'curl -H "Content-Type: application/json" -X POST -u %jiraUsername%:"%jiraPassword%" --data @target/cucumber-report/cucumber.json https://jira.ballpark.de.altemista.cloud/rest/raven/1.0/import/execution/cucumber?keys=%testset%'
+            }
+        }
+    }
+}

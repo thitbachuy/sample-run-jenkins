@@ -1,0 +1,20 @@
+# To execute this docker-compose yml file use `docker-compose -f docker-compose-v3.yml up`
+# Add the `-d` flag at the end for detached execution
+# To stop the execution, hit Ctrl+C, and then `docker-compose -f docker-compose-v3.yml down`
+version: "3"
+services:
+  testing:
+    depends_on:
+      - chrome
+      - selenium-hub
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+        - Browser=${BROWSER}
+        - Tagging=${TAGGING}
+    container_name: testing
+    volumes:
+          - ./docker/target:/apps/automation_testing/target
+#volumes:
+#  target:

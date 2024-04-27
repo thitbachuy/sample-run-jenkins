@@ -1,0 +1,10 @@
+
+store knowledge you might need
+
+        1 git "put in git clone here"
+        2 run cmd line
+
+mvn test -Dbrowser=chrome -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop
+mvn clean verify -Dcucumber.filter.tags=@Google -Dbrowser=chrome -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop
+
+mvn clean verify -Dbrowser=firefox -DexecutingEnv=test -DtestedEnv=sit -Dplatform=desktop

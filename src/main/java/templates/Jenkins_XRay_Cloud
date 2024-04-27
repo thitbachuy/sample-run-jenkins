@@ -1,0 +1,70 @@
+*** Use this Pipeline to run and report Tests against a Cloud Based Jira XRay instance ***
+
+properties([parameters([choice(choices: ['TA-4', 'TA-14', 'TA-15'], description: '''TA-4 = TestSet EDGE
+TA-14 = TestSet CHROME
+TA-15 = TestSet FIREFOX''', name: 'testset'), choice(choices: ['chrome', 'edge', 'firefox'], description: 'please select a browser according to your TestSet', name: 'browser')]), [$class: 'JiraProjectProperty']])
+def token
+def stdout
+def cmd
+def TestSet
+def notify
+pipeline {
+    options { disableConcurrentBuilds() }
+agent any
+    stages{
+        stage('Get TA from GitLab'){
+            steps{
+            checkout([$class                           : 'GitSCM',
+                      branches                         : [[name: 'master']],
+                      doGenerateSubmoduleConfigurations: false,
+                      extensions                       : [[$class: 'CleanCheckout']],
+                      userRemoteConfigs                : [[credentialsId: 'skyGITpk',
+                      url							   : 'https://github.com/1703/sky-newCRM-E2E-testautomation-ntt']]
+            ])
+            }
+        }
+	    stage('Get token for XRay API'){
+	        steps{
+	                script{
+                stdout = bat(returnStdout: true, script: 'curl -H "Content-Type:application/json" -X POST --data @"src/test/java/testdata/skyjiraauth.json" "https://xray.cloud.xpand-it.com/api/v1/authenticate"').trim()
+    	    	result = stdout.tokenize().last()
+    	    	token = result.replaceAll('"','')
+                }
+	        }
+	    }
+        stage('get TestSet from XRay'){
+            steps{
+                echo "using token: ${token}"
+                script{
+                    cmd = "curl -D- -H \"Content-Type: application/json\" -X GET -H \"Authorization: Bearer ${token}\" \"https://xray.cloud.xpand-it.com/api/v1/export/cucumber?keys=%testset%\" --output \"src/test/java/features/Feature.zip\""
+                }
+				echo cmd
+				bat cmd
+				unzip dir: 'src/test/java/features', glob: '', zipFile: 'src/test/java/features/Feature.zip'
+            }
+        }
+        stage('Execute XRay Tests') {
+            steps {
+                withMaven(maven: 'maven_3_6_3') {
+                    bat 'mvn -f "C:/Program Files (x86)/Jenkins/workspace/SKY E2E TestAutomation" verify -Dcucumber.filter.tags=@%testset% -Dbrowser=%browser% -DexecutingEnv=jenkins'
+                }
+            }
+        }
+        stage('create Cucumber Report') {
+            steps {
+                cucumber buildStatus: "UNSTABLE",
+                        fileIncludePattern: "**/cucumber.json",
+                        jsonReportDirectory: 'target/cucumber-report'
+            }
+        }
+        stage('Send Report to XRay') {
+            steps {
+                script{
+                    cmd = "curl -H \"Content-Type: application/json\" -X POST -H \"Authorization: Bearer $token\" --data @target/cucumber-report/cucumber.json \"https://xray.cloud.xpand-it.com/api/v1/import/execution/cucumber\""
+                }
+				echo cmd
+				bat cmd
+            }
+        }
+    }
+}
