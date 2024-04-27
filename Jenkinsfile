@@ -38,7 +38,7 @@ pipeline {
         }
         stage('Create containers and run test') {
             tools {
-                jdk 'openjdk-11'
+                jdk "openjdk-11"
             }
             steps {
                 script {
