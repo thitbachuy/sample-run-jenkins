@@ -3,6 +3,9 @@ pipeline {
         docker {
             image 'alpinelinux/docker-cli'
         }
+        tools {
+            jdk 'openjdk-11'
+        }
     }
     parameters {
         extendedChoice(
