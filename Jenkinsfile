@@ -31,7 +31,7 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [
                     [name: '*/master']
                 ], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [
-                    [credentialsId: 'jenkins-user-github', url: 'https://github.com/thitbachuy/selenium-java-02082023.git']
+                    [credentialsId: 'jenkins-user-github', url: 'https://github.com/thitbachuy/sample-run-jenkins.git']
                 ]])
                 sh "ls -lart ./*"
             }
