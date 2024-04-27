@@ -11,4 +11,4 @@ COPY pom.xml /apps/${app_name}
 # ENV Tagging Tiki
 # ENV Browser chromeGCP
 
-ENTRYPOINT mvn test -Dcucumber.filter.tags=@${Tagging} -Dcucumber.filter -Dbrowser=${Browser} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop
+ENTRYPOINT mvn test -Dcucumber.filter.tags=@${env.TAGGING} -Dcucumber.filter -Dbrowser=${env.BROWSER} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop
