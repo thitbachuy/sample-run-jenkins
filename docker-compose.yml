@@ -12,6 +12,6 @@ services:
         - Tagging=${TAGGING}
     container_name: java-testing
     volumes:
-          - ./docker/target:/apps/automation_testing/target
+          - ./target:/apps/automation_testing/target
 #volumes:
 #  target:
