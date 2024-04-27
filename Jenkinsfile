@@ -1,8 +1,8 @@
 pipeline {
-    agent {
-        docker {
-            image 'alpinelinux/docker-cli'
-        }
+    agent any
+    tools {
+        maven '3.9.6'
+        jdk 'jdk11'
     }
     parameters {
         extendedChoice(
@@ -25,6 +25,14 @@ pipeline {
         )
     }
     stages {
+        stage ('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
+            }
+        }
         stage('Checkout') {
             steps {
                 echo 'Checkout...'
@@ -37,10 +45,6 @@ pipeline {
             }
         }
         stage('Create containers and run test') {
-            tools {
-                maven 'Maven 3.3.9' 
-                jdk "openjdk-11"
-            }
             steps {
                 script {
                     echo 'Creating containers...'
@@ -55,8 +59,8 @@ pipeline {
         stage('Export result') {
             steps {
                 echo 'exporting...'
-                        sh 'docker cp /target:/target'
-                        sh 'ls -al /target'
+                        // sh 'docker cp /target:/target'
+                        // sh 'ls -al /target'
                 // Insert your test commands here, e.g., 'mvn test'
             }
         }
