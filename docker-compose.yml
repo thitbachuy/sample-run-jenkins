@@ -10,7 +10,7 @@ services:
     environment:
         - Browser=${BROWSER}
         - Tagging=${TAGGING}
-    container_name: testing
+    container_name: java-testing
     volumes:
           - ./docker/target:/apps/automation_testing/target
 #volumes:
