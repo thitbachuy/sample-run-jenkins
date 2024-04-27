@@ -42,8 +42,7 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
-                    sh 'docker image build -t java-testing .'
-                    sh 'docker run java-testing'
+                    sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
