@@ -3,9 +3,6 @@ pipeline {
         docker {
             image 'alpinelinux/docker-cli'
         }
-        tools {
-            jdk 'openjdk-11'
-        }
     }
     parameters {
         extendedChoice(
@@ -40,6 +37,9 @@ pipeline {
             }
         }
         stage('Create containers and run test') {
+            tools {
+                jdk 'openjdk-11'
+            }
             steps {
                 script {
                     echo 'Creating containers...'
