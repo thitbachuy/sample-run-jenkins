@@ -38,6 +38,7 @@ pipeline {
         }
         stage('Create containers and run test') {
             tools {
+                maven 'Maven 3.3.9' 
                 jdk "openjdk-11"
             }
             steps {
