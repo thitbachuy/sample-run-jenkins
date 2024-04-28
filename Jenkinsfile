@@ -38,7 +38,7 @@ pipeline {
                 script {
                     def selectedOptions = params.TAGGING.split(',')
                     selectedOptions = selectedOptions.collect { "@${it}" }
-                    tagging = ${selectedOptions.join(',')}
+                    def tagging = ${selectedOptions.join(',')}
                     echo "Selected options with '@': ${selectedOptions.join(',')}"
                     echo "tagging: ${tagging}"
                 }
