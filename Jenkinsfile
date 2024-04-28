@@ -50,9 +50,8 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
-                    def hubContainerId = sh(script: "docker ps -qf 'name=selenium-hub'", returnStdout: true).trim()
-                    def ipAddress = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $hubContainerId", returnStdout: true).trim()
-                    def port = '4444' // Assuming default Selenium Hub port
+                    def ipAddress = sh(script: "hostname -I | cut -d' ' -f1", returnStdout: true).trim()
+                    echo "Localhost IP address is: ${ipAddress}
 
                     echo "IP Address of Selenium Hub: $ipAddress"
                     echo "Port of Selenium Hub: $port"
