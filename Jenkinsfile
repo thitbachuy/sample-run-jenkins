@@ -31,7 +31,7 @@ pipeline {
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
-                def selectedOptions = params.TAGGING.split(',').collect { "@${it}" }
+                def selectedOptions = ${params.TAGGING}.split(',').collect { "@${it}" }
                 echo "Selected options with '@': ${selectedOptions}"
             }
         }
