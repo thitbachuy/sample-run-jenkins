@@ -50,7 +50,7 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
-                    def hostName = InetAddress.getLocalHost().getHostName()
+                    def hostName = InetAddress.localHost.canonicalHostName
                     echo "Jenkins Hostname: $hostName"
                     sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${hostName} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
