@@ -88,7 +88,7 @@ pipeline {
         always {
             emailext mimeType: 'text/html',
             body: 'Hi',
-            subject: "Selenium: Job '${env.JOB_NAME}' Status: currentBuild.result",
+            subject: "Selenium: Job '${env.JOB_NAME}' Status:",
             to: 'noikhongvoitrai@gmail.com'
         }
     }
