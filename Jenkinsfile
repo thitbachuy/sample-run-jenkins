@@ -31,8 +31,12 @@ pipeline {
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
-                def selectedOptions = ${params.TAGGING}.split(',').collect { "@${it}" }
-                echo "Selected options with '@': ${selectedOptions}"
+                script {
+                    def selectedOptions = params.tagging.split(',').collect {
+                        "@${it}"
+                    }
+                    echo "Selected options with '@': ${selectedOptions}"
+                }
             }
         }
         stage('Checkout') {
@@ -64,8 +68,8 @@ pipeline {
         stage('Export result') {
             steps {
                 echo 'exporting...'
-                        // sh 'docker cp /target:/target'
-                        // sh 'ls -al /target'
+                // sh 'docker cp /target:/target'
+                // sh 'ls -al /target'
                 // Insert your test commands here, e.g., 'mvn test'
             }
         }
