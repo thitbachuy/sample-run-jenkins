@@ -83,13 +83,14 @@ pipeline {
         //         // Insert your build commands here, e.g., 'mvn clean install'
         //     }
         // }
-    }
-    post {
-        always {
-            emailext mimeType: 'text/html',
-            body: 'Hi',
-            subject: "Selenium: Job '${env.JOB_NAME}' Status:",
-            to: 'noikhongvoitrai@gmail.com'
+          stage('Send Email') {
+            steps {
+                emailext subject: 'Build Notification',
+                          body: 'Your build has completed.',
+                          to: 'noikhongvoitrai@gmail.com',
+                          replyTo: 'noikhongvoitrai1@gmail.com',
+                          mimeType: 'text/html'
+            }
         }
     }
 }
