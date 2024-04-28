@@ -25,20 +25,17 @@ pipeline {
         )
     }
     stages {
-        stage ('Initialize') {
+         stage('Select Tagging Options') {
             steps {
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
-            }
-        }
-         stage('Select Tagging Options') {
-            steps {
                 script {
                     def selectedOptions = params.TAGGING.split(',')
                     selectedOptions = selectedOptions.collect { "@${it}" }
-                    echo "Selected options with '@': ${selectedOptions.join(',')}"
+                    tagging = ${selectedOptions.join(',')}
+                    echo "Selected options with '@': ${tagging}"
                 }
             }
         }
@@ -61,7 +58,7 @@ pipeline {
                     echo "TAGGING: ${params.TAGGING}"
                     def ipAddress = "127.0.0.1"
                     echo "IP address of selenium: ${ipAddress}"
-                    sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    sh "mvn test -Dcucumber.filter.tags=@${params.tagging} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
