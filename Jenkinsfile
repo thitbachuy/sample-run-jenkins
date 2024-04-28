@@ -30,6 +30,7 @@ pipeline {
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
+                    echo "NODE_NAME = hostname -I"
                 '''
             }
         }
