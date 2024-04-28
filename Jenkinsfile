@@ -57,7 +57,7 @@ pipeline {
                     def tagging = selectedOptions.join(',')
                     echo "Selected options with '@': ${selectedOptions.join(',')}"
                     echo "tagging: ${tagging}"
-                    sh "mvn test -Dcucumber.-Dcucumber.option=\"--tags ${tagging}\" -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    sh "mvn clean test -Dcucumber.-Dcucumber.option=\"--tags ${tagging}\" -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
@@ -76,13 +76,13 @@ pipeline {
                 echo 'Tear down...'
             }
         }
-        stage('Tear down') {
-            steps {
-                echo 'Tear down...'
-                sh 'docker-compose down'
-                // Insert your build commands here, e.g., 'mvn clean install'
-            }
-        }
+        // stage('Tear down') {
+        //     steps {
+        //         echo 'Tear down...'
+        //         sh 'docker-compose down'
+        //         // Insert your build commands here, e.g., 'mvn clean install'
+        //     }
+        // }
         //   stage('Send Email') {
         //     steps {
         //         emailext subject: 'Build Notification',
