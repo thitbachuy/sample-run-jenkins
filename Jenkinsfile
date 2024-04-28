@@ -50,9 +50,13 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
-                     def hostName = sh(script: 'hostname -i', returnStdout: true).trim()
-                    echo "Hostname of the Jenkins container: $hostName"
-                    sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${hostName} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    def hubContainerId = sh(script: "docker ps -qf 'name=selenium-hub'", returnStdout: true).trim()
+                    def ipAddress = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $hubContainerId", returnStdout: true).trim()
+                    def port = '4444' // Assuming default Selenium Hub port
+
+                    echo "IP Address of Selenium Hub: $ipAddress"
+                    echo "Port of Selenium Hub: $port"
+                    sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
