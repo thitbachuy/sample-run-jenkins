@@ -50,12 +50,8 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
-                    def ipAddress = sh(script: "hostname -I | cut -d' ' -f1", returnStdout: true).trim()
-                    echo "Localhost IP address is: ${ipAddress}"
-                    def selectedOptions = params.tagging.split(',').collect {
-                        "@${it}"
-                    }
-                    echo "Selected options with '@': ${selectedOptions}"
+                    def ipAddress = "127.0.0.1"
+                    echo "IP address of selenium: ${ipAddress}"
                     sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
@@ -83,12 +79,12 @@ pipeline {
         //     }
         // }
     }
-    post {
-        always {
-            emailext mimeType: 'text/html',
-            body: 'Hi',
-            subject: "Selenium: Job '${env.JOB_NAME}' Status: currentBuild.resul",
-            to: 'noikhongvoitrai@gmail.com'
-        }
-    }
+//     post {
+//         always {
+//             emailext mimeType: 'text/html',
+//             body: 'Hi',
+//             subject: "Selenium: Job '${env.JOB_NAME}' Status: currentBuild.resul",
+//             to: 'noikhongvoitrai@gmail.com'
+//         }
+//     }
 }
