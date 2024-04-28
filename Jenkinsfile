@@ -58,7 +58,7 @@ pipeline {
                     echo "TAGGING: ${params.TAGGING}"
                     def ipAddress = "127.0.0.1"
                     echo "IP address of selenium: ${ipAddress}"
-                    sh "mvn test -Dcucumber.filter.tags=@${params.tagging} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    sh "mvn test -Dcucumber.filter.tags=${params.tagging} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
