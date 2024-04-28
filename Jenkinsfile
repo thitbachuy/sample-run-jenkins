@@ -33,6 +33,15 @@ pipeline {
                 '''
             }
         }
+         stage('Select Tagging Options') {
+            steps {
+                script {
+                    def selectedOptions = params.TAGGING.split(',')
+                    selectedOptions = selectedOptions.collect { "@${it}" }
+                    echo "Selected options with '@': ${selectedOptions.join(',')}"
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 echo 'Checkout...'
