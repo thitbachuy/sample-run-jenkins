@@ -51,7 +51,7 @@ pipeline {
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
                     def ipAddress = sh(script: "hostname -I | cut -d' ' -f1", returnStdout: true).trim()
-                    echo "Localhost IP address is: ${ipAddress}
+                    echo "Localhost IP address is: ${ipAddress}"
 
                     echo "IP Address of Selenium Hub: $ipAddress"
                     echo "Port of Selenium Hub: $port"
