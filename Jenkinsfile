@@ -84,12 +84,12 @@ pipeline {
         //     }
         // }
     }
-//     post {
-//         always {
-//             emailext mimeType: 'text/html',
-//             body: 'Hi',
-//             subject: "Selenium: Job '${env.JOB_NAME}' Status: currentBuild.resul",
-//             to: 'noikhongvoitrai@gmail.com'
-//         }
-//     }
+    post {
+        always {
+            emailext mimeType: 'text/html',
+            body: 'Hi',
+            subject: "Selenium: Job '${env.JOB_NAME}' Status: currentBuild.result",
+            to: 'noikhongvoitrai@gmail.com'
+        }
+    }
 }
