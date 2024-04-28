@@ -76,21 +76,21 @@ pipeline {
                 echo 'Tear down...'
             }
         }
-        // stage('Tear down') {
-        //     steps {
-        //         echo 'Tear down...'
-        //         sh 'docker-compose down'
-        //         // Insert your build commands here, e.g., 'mvn clean install'
-        //     }
-        // }
-          stage('Send Email') {
+        stage('Tear down') {
             steps {
-                emailext subject: 'Build Notification',
-                          body: 'Your build has completed.',
-                          to: 'noikhongvoitrai@gmail.com',
-                          replyTo: 'noikhongvoitrai1@gmail.com',
-                          mimeType: 'text/html'
+                echo 'Tear down...'
+                sh 'docker-compose down'
+                // Insert your build commands here, e.g., 'mvn clean install'
             }
         }
+        //   stage('Send Email') {
+        //     steps {
+        //         emailext subject: 'Build Notification',
+        //                   body: 'Your build has completed.',
+        //                   to: 'noikhongvoitrai@gmail.com',
+        //                   replyTo: 'noikhongvoitrai1@gmail.com',
+        //                   mimeType: 'text/html'
+        //     }
+        // }
     }
 }
