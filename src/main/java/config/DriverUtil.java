@@ -54,7 +54,7 @@ public class DriverUtil {
   public static final ThreadLocal<Map<String, RemoteWebDriver>> threadLocalActiveBrowsers = new ThreadLocal<>();
   private static String proxyHost;
   private static String proxyPort;
-  private static final String HUB_ENDPOINT = "172.20.0.1:4444";
+  private static final String HUB_ENDPOINT = System.getProperty("hostname");
   public static final String FILE_SEPARATOR = System.getProperty("file.separator");
   private DriverUtil() {
   }

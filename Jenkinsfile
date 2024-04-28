@@ -50,7 +50,8 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
-                    sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    echo "NODE_NAME: ${env.NODE_NAME}"
+                    sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${env.NODE_NAME} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
