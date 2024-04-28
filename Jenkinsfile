@@ -30,7 +30,6 @@ pipeline {
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
-                    echo "NODE_NAME = hostname -I"
                 '''
             }
         }
@@ -51,8 +50,9 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
-                    echo "NODE_NAME: ${env.NODE_NAME}"
-                    sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${env.NODE_NAME} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    def hostName = InetAddress.getLocalHost().getHostName()
+                    echo "Jenkins Hostname: $hostName"
+                    sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${hostName} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
