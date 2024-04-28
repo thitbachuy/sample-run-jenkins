@@ -38,7 +38,9 @@ pipeline {
                 script {
                     def selectedOptions = params.TAGGING.split(',')
                     selectedOptions = selectedOptions.collect { "@${it}" }
+                    tagging = ${selectedOptions.join(',')}
                     echo "Selected options with '@': ${selectedOptions.join(',')}"
+                    echo "tagging: ${tagging}"
                 }
             }
         }
@@ -61,7 +63,7 @@ pipeline {
                     echo "TAGGING: ${params.TAGGING}"
                     def ipAddress = "127.0.0.1"
                     echo "IP address of selenium: ${ipAddress}"
-                    sh "mvn test -Dcucumber.filter.tags=${selectedOptions.join(',')} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    sh "mvn test -Dcucumber.filter.tags=${tagging} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
