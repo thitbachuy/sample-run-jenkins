@@ -50,7 +50,7 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
-                     def hostName = sh(script: 'hostname', returnStdout: true).trim()
+                     def hostName = sh(script: 'hostname -i', returnStdout: true).trim()
                     echo "Hostname of the Jenkins container: $hostName"
                     sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${hostName} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
