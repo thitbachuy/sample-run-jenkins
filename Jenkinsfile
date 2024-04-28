@@ -31,12 +31,6 @@ pipeline {
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
-                script {
-                    def selectedOptions = params.tagging.split(',').collect {
-                        "@${it}"
-                    }
-                    echo "Selected options with '@': ${selectedOptions}"
-                }
             }
         }
         stage('Checkout') {
@@ -58,7 +52,10 @@ pipeline {
                     echo "TAGGING: ${params.TAGGING}"
                     def ipAddress = sh(script: "hostname -I | cut -d' ' -f1", returnStdout: true).trim()
                     echo "Localhost IP address is: ${ipAddress}"
-                    echo "Port of Selenium Hub: $port"
+                    def selectedOptions = params.tagging.split(',').collect {
+                        "@${it}"
+                    }
+                    echo "Selected options with '@': ${selectedOptions}"
                     sh "mvn test -Dcucumber.filter.tags=@${params.TAGGING} -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
