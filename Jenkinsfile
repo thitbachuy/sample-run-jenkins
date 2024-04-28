@@ -25,12 +25,16 @@ pipeline {
         )
     }
     stages {
-         stage('Select Tagging Options') {
+        stage ('Initialize') {
             steps {
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
+            }
+        }
+         stage('Tagging') {
+            steps {
                 script {
                     def selectedOptions = params.TAGGING.split(',')
                     selectedOptions = selectedOptions.collect { "@${it}" }
