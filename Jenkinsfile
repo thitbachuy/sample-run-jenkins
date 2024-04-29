@@ -65,7 +65,7 @@ pipeline {
                     def tagging = selectedOptions.join(',')
                     echo "Selected options with '@': ${selectedOptions.join(',')}"
                     echo "tagging: ${tagging}"
-                    sh "mvn test -Dcucumber.filter.tags=\\\"@Shopee or @Tiki\\\" -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    sh "mvn test -Dcucumber.filter.tags=\\\'@Shopee or @Tiki\\\' -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                 }
             }
