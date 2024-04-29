@@ -44,6 +44,14 @@ pipeline {
                 sh "ls -lart ./*"
             }
         }
+          stage('Clean install') {
+            steps {
+                script {
+                    echo 'Clean install...'
+                    sh "mvn clean install"
+                }
+            }
+        }
         stage('Create containers and run test') {
             steps {
                 script {
@@ -59,7 +67,6 @@ pipeline {
                     echo "tagging: ${tagging}"
                     sh "mvn test -Dcucumber.filter.tags=\\\"@Shopee or @Tiki\\\" -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
-                    // Insert your build commands here, e.g., 'mvn clean install'
                 }
             }
         }
