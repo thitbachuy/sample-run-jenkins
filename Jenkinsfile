@@ -57,7 +57,7 @@ pipeline {
                     def tagging = selectedOptions.join(',')
                     echo "Selected options with '@': ${selectedOptions.join(',')}"
                     echo "tagging: ${tagging}"
-                    sh "mvn test -Dcucumber.options=\"--tags ${tagging}\" -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    sh "mvn test -Dcucumber.options=\\\"--tags ${tagging}\\\" -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
