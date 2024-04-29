@@ -57,33 +57,21 @@ pipeline {
                     def tagging = selectedOptions.join(',')
                     echo "Selected options with '@': ${selectedOptions.join(',')}"
                     echo "tagging: ${tagging}"
-                    // sh "mvn test -Dcucumber.-Dcucumber.option=\"--tags \'${tagging}\'\" -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
-                    sh "mvn test -Dcucumber.-Dcucumber.filter.tags=\"@Tiki and @Shopee\" -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
+                    sh "mvn test -Dcucumber.-Dcucumber.option=\"--tags \'${tagging}\'\" -Dcucumber.filter -Dbrowser=${params.BROWSER} -Dhostname=${ipAddress} -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop"
                     sh 'ls -al'
                     // Insert your build commands here, e.g., 'mvn clean install'
                 }
             }
         }
-        stage('Export result') {
-            steps {
-                echo 'exporting...'
-                // sh 'docker cp /target:/target'
-                // sh 'ls -al /target'
-                // Insert your test commands here, e.g., 'mvn test'
-            }
-        }
-        stage ('Send reporting') {
-            steps {
-                echo 'Tear down...'
-            }
-        }
-        // stage('Tear down') {
+        // stage('Export result') {
         //     steps {
-        //         echo 'Tear down...'
-        //         sh 'docker-compose down'
-        //         // Insert your build commands here, e.g., 'mvn clean install'
+        //         echo 'exporting...'
+        //         // sh 'docker cp /target:/target'
+        //         // sh 'ls -al /target'
+        //         // Insert your test commands here, e.g., 'mvn test'
         //     }
         // }
+        // 
         //   stage('Send Email') {
         //     steps {
         //         emailext subject: 'Build Notification',
