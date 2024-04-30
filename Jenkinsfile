@@ -58,7 +58,7 @@ pipeline {
                         if (i > 0) {
                             tagging += " or "
                         }
-                        selectedOptions[i] += "@"
+                        selectedOptions[i] = "@" +  selectedOptions[i]
                         tagging += selectedOptions[i]
                     }
                     echo "tagging: ${tagging}"
