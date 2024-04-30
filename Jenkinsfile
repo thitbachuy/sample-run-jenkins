@@ -52,10 +52,14 @@ pipeline {
                     echo "TAGGING: ${params.TAGGING}"
                     def ipAddress = "127.0.0.1"
                     echo "IP address of selenium: ${ipAddress}"
+                    def tagging = ""
                     def selectedOptions = params.TAGGING.split(',')
-                    selectedOptions = selectedOptions.collect { "@${it}" }
-                    def tagging = selectedOptions.join(',')
-                    echo "Selected options with '@': ${selectedOptions.join(',')}"
+                    for (int i = 0; i < elements.size(); i++) {
+                        if (i > 0) {
+                            result += " or "
+                        }
+                        result += "@"elements[i]
+                    }
                     echo "tagging: ${tagging}"
                     sh 'mvn test -Dcucumber.filter.tags=\"@Shopee or @Tiki\" -Dcucumber.filter -Dbrowser=\'+${params.BROWSER}+\' -Dhostname=\'+"${ipAddress}+\' -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop'
                     sh 'ls -al'
