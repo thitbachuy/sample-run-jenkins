@@ -61,7 +61,7 @@ pipeline {
                         result += "@"elements[i]
                     }
                     echo "tagging: ${tagging}"
-                    sh 'mvn test -Dcucumber.filter.tags=\"@Shopee or @Tiki\" -Dcucumber.filter -Dbrowser=\'+${params.BROWSER}+\' -Dhostname=\'+"${ipAddress}+\' -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop'
+                    sh 'mvn test -Dcucumber.filter.tags=\'+${tagging}+\' -Dcucumber.filter -Dbrowser=\'+${params.BROWSER}+\' -Dhostname=\'+"${ipAddress}+\' -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop'
                     sh 'ls -al'
                 }
             }
