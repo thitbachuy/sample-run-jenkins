@@ -54,6 +54,7 @@ pipeline {
                     echo "IP address of selenium: ${ipAddress}"
                     def tagging = ""
                     def selectedOptions = params.TAGGING.split(',')
+                    echo "selectedOptions: ${selectedOptions}"
                     for (int i = 0; i < elements.size(); i++) {
                         if (i > 0) {
                             result += " or "
