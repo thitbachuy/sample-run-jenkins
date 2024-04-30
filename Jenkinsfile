@@ -58,7 +58,8 @@ pipeline {
                         if (i > 0) {
                             tagging += " or "
                         }
-                        tagging += "@"selectedOptions[i]
+                        selectedOptions[i] += "@"
+                        tagging += selectedOptions[i]
                     }
                     echo "tagging: ${tagging}"
                     sh 'mvn test -Dcucumber.filter.tags=\'+${tagging}+\' -Dcucumber.filter -Dbrowser=\'+${params.BROWSER}+\' -Dhostname=\'+"${ipAddress}+\' -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop'
