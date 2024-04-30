@@ -54,12 +54,11 @@ pipeline {
                     echo "IP address of selenium: ${ipAddress}"
                     def tagging = ""
                     def selectedOptions = params.TAGGING.split(',')
-                    echo "selectedOptions: ${selectedOptions}"
-                    for (int i = 0; i < elements.size(); i++) {
+                    for (int i = 0; i < selectedOptions.size(); i++) {
                         if (i > 0) {
-                            result += " or "
+                            tagging += " or "
                         }
-                        result += "@"elements[i]
+                        tagging += "@"selectedOptions[i]
                     }
                     echo "tagging: ${tagging}"
                     sh 'mvn test -Dcucumber.filter.tags=\'+${tagging}+\' -Dcucumber.filter -Dbrowser=\'+${params.BROWSER}+\' -Dhostname=\'+"${ipAddress}+\' -DexecutingEnv=test -DtestedEnv=uat -Dplatform=desktop'
