@@ -50,7 +50,7 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
-                    def ipAddress = "192.168.2.8"
+                    def ipAddress = "127.0.0.1"
                     echo "IP address of selenium: ${ipAddress}"
                     def tagging = ""
                     def selectedOptions = params.TAGGING.split(',')
