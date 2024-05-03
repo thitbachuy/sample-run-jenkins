@@ -50,6 +50,7 @@ pipeline {
                     echo 'Creating containers...'
                     echo "BROWSER: ${params.BROWSER}"
                     echo "TAGGING: ${params.TAGGING}"
+                    // 172.17.0.1 : default IP of your local physical machine in docker network
                     def ipAddress = "172.17.0.1"
                     echo "IP address of selenium: ${ipAddress}"
                     def tagging = ""
