@@ -77,15 +77,15 @@ pipeline {
         // }
         // 
     }
-       post {
-        always {
-            // Send email notification
-            emailext(
-                to: 'noikhongvoitrai@gmail.com',
-                subject: "Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
-                body: "Build ${currentBuild.currentResult}: ${env.JOB_NAME} - ${env.BUILD_URL}",
-                mimeType: 'text/html'
-            )
-        }
-    }
+    //    post {
+    //     always {
+    //         // Send email notification
+    //         emailext(
+    //             to: 'noikhongvoitrai@gmail.com',
+    //             subject: "Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
+    //             body: "Build ${currentBuild.currentResult}: ${env.JOB_NAME} - ${env.BUILD_URL}",
+    //             mimeType: 'text/html'
+    //         )
+    //     }
+    // }
 }
